@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import List from '../components/List'
 import MessageRoom from '../components/Message'
 // import NotSelect from '../components/NotSelect'
@@ -22,6 +23,35 @@ export default {
     List,
     // NotSelect
     MessageRoom
+  },
+  computed: {
+    ...mapGetters({
+      user: 'getUser'
+    })
+  },
+  created() {
+    this.getUserById(this.user)
+    this.$getLocation()
+      .then(coordinates => {
+        this.coordinate = {
+          lat: coordinates.lat,
+          lng: coordinates.lng
+        }
+        const payload = {
+          user_id: this.user.user_id,
+          form: this.coordinate
+        }
+        this.patchLocation(payload).then(res => {
+          console.log(res.msg)
+          this.getUserById(this.user)
+        })
+      })
+      .catch(error => {
+        alert(error)
+      })
+  },
+  methods: {
+    ...mapActions(['getUserById','patchLocation'])
   }
 }
 </script>

@@ -12,22 +12,6 @@
           value.unread
         }}</b-badge>
       </div>
-      <!-- <b-row @click="message(value)" style="cursor:pointer; padding:0">
-        <b-col cols="12">
-          <b-list-group-item class="d-flex align-items-center">
-            <b-avatar
-              variant="primary"
-              rounded="lg"
-              class="mr-3"
-              src="https://placekitten.com/300/300"
-            ></b-avatar>
-            <span class="mr-auto">{{ value.user_name }}</span>
-            <b-badge variant="info" v-show="value.unread > 0">{{
-              value.unread
-            }}</b-badge>
-          </b-list-group-item>
-        </b-col>
-      </b-row> -->
     </div>
   </div>
 </template>
@@ -37,26 +21,10 @@ export default {
   name: 'Room',
   data() {
     return {
-      rooms: [
-        {
-          user_name: 'Galuh Prahadi',
-          unread: 12
-        },
-        {
-          user_name: 'Aditya',
-          unread: 0
-        },
-        {
-          user_name: 'Rizal',
-          unread: 3
-        },
-        {
-          user_name: 'Reza',
-          unread: 4
-        }
-      ]
+      rooms: []
     }
-  }
+  },
+  methods: {}
 }
 </script>
 <style>

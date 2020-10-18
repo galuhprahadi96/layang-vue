@@ -73,16 +73,17 @@
           </ul>
         </b-popover>
         <FriendList />
+        <Profile />
       </b-col>
     </b-row>
     <b-row class="list-options">
       <b-col cols="12" style="margin-bottom: 25px">
         <b-avatar
           class="profile-picture"
-          src="https://placekitten.com/300/300"
+          :src="url + '/' + userData.user_image"
         ></b-avatar>
-        <p class="profile-name">Galuh Prahadi Gumelar</p>
-        <span class="profile-phone">082240157378</span>
+        <p class="profile-name">{{ userData.user_name }}</p>
+        <span class="profile-phone">{{ userData.user_phone }}</span>
       </b-col>
       <b-col cols="10">
         <b-input-group size="sm" class="mb-2 pl-1">
@@ -106,13 +107,27 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Room from '../components/Room.vue'
 import FriendList from '../components/FriendList.vue'
+import Profile from '../components/Profile.vue'
 export default {
   name: 'List',
+  data() {
+    return {
+      url: process.env.VUE_APP_URL
+    }
+  },
   components: {
     Room,
+    Profile,
     FriendList
+  },
+  computed: {
+    ...mapGetters({
+      userId: 'getUser',
+      userData: 'getUserData'
+    })
   },
   methods: {}
 }

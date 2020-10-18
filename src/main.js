@@ -5,10 +5,20 @@ import router from './router'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import VueGeolocation from 'vue-browser-geolocation'
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBuun_xYU_0JX-k9ZCotulaxsu8Sz-bp24',
+    libraries: 'places'
+  }
+})
+Vue.use(VueGeolocation)
 
 new Vue({
   router,
