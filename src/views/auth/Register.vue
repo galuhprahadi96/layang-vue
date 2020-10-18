@@ -2,7 +2,7 @@
   <div>
     <b-container>
       <div class="cform-wrap">
-        <b-form>
+        <b-form @submit.prevent="onRegister">
           <div class="back">
             <router-link to="/login"
               ><b-icon icon="chevron-left" variant="primary"></b-icon
@@ -14,7 +14,7 @@
           <div class="mb-3" style="text-align: left; font-size:14px">
             <p>Let's create your account</p>
           </div>
-          <b-alert variant="warning" :show="isAlert">{{ isMsg }}</b-alert>
+          <b-alert variant="danger" :show="isAlert">{{ isMsg }}</b-alert>
           <div class="cform-group">
             <label class="label" style="font-size:14px; margin-bottom: -15px"
               >Name</label
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Register',
   data() {
@@ -99,7 +100,36 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    ...mapActions(['register']),
+    onRegister() {
+      this.isLoading = true
+      this.register(this.form)
+        .then(result => {
+          this.makeToast(result.msg)
+          this.form = ''
+          this.isLoading = false
+          this.isAlert = false
+          this.isMsg = ''
+          setTimeout(() => {
+            this.$router.push('/login')
+          }, 2000)
+        })
+        .catch(err => {
+          this.isLoading = false
+          this.isAlert = true
+          this.isMsg = err.data.msg
+        })
+    },
+    makeToast(msg, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Success',
+        variant: 'success',
+        autoHideDelay: 10000,
+        appendToast: append
+      })
+    }
+  }
 }
 </script>
 

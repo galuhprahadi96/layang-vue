@@ -2,14 +2,14 @@
   <div>
     <b-container>
       <div class="cform-wrap">
-        <b-form>
+        <b-form @submit.prevent="onLogin">
           <div class="cform-title mb-2" style="text-align: center">
             <span>Login</span>
           </div>
           <div class="mb-3" style="text-align: left; font-size:14px">
             <p>Hi, Wellcome Back</p>
           </div>
-          <b-alert variant="warning" :show="isAlert">{{ isMsg }}</b-alert>
+          <b-alert variant="danger" :show="isAlert">{{ isMsg }}</b-alert>
           <div class="cform-group">
             <label class="label" style="font-size:14px">Email</label>
             <input
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
@@ -79,7 +80,37 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    ...mapActions(['login']),
+    onLogin() {
+      this.isLoading = true
+      this.login(this.form)
+        .then(result => {
+          this.form = ''
+          this.isAlert = false
+          this.isMsg = ''
+          this.isLoading = false
+          this.makeToast(result.msg)
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 2000)
+        })
+        .catch(err => {
+          // console.log(err)
+          this.isLoading = false
+          this.isAlert = true
+          this.isMsg = err.data.msg
+        })
+    },
+    makeToast(msg, append = false) {
+      this.$bvToast.toast(`${msg}`, {
+        title: 'Success',
+        variant: 'success',
+        autoHideDelay: 10000,
+        appendToast: append
+      })
+    }
+  }
 }
 </script>
 
