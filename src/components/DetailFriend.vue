@@ -5,7 +5,7 @@
         <img
           style="width: 70px; height: 70px; border-radius: 20px"
           :src="url + '/' + info.user_image"
-        >
+        />
         <div class="profile-data">
           <p class="profile-name">{{ info.user_name }}</p>
         </div>
@@ -53,7 +53,7 @@ export default {
     ...mapGetters({
       info: 'getDetailFriend'
     })
-  },
+  }
 }
 </script>
 

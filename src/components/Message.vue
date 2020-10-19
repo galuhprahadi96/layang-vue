@@ -3,9 +3,12 @@
     <div class="room-header">
       <b-row class="room-header-row">
         <div class="d-flex align-items-center">
-          <img src="https://placekitten.com/300/300" class="rooms-pict ml-3" />
+          <img
+            :src="url + '/' + roomSelected.room_img"
+            class="rooms-pict ml-3"
+          />
           <div class="ml-4">
-            <p class="ml-3 room-name">Galuh Prahadi Gumelar</p>
+            <p class="ml-3 room-name">{{ roomSelected.room_name }}</p>
             <p style="margin:0"></p>
           </div>
         </div>
@@ -13,22 +16,22 @@
     </div>
     <div id="message">
       <b-container class="message-chat">
-        <b-row v-for="(value, index) in chat" :key="index">
-          <b-col v-if="value.class === 'sender'">
+        <b-row v-for="(value, index) in message" :key="index">
+          <b-col v-if="value.sender === roomSelected.user_id">
             <img
-              src="https://placekitten.com/300/300"
+              :src="url + '/' + value.sender_img"
               class="float-left"
-              style="width:45px; border-radius:20px"
+              style="width:45px; height:45px; border-radius:20px"
             />
-            <div class="sender" v-if="value.class === 'sender'">
+            <div class="sender">
               {{ value.message }}
             </div>
           </b-col>
-          <b-col v-if="value.class === 'receiver'">
+          <b-col v-if="value.sender === userId.user_id">
             <img
-              src="https://placekitten.com/300/300"
+              :src="url + '/' + value.sender_img"
               class="float-right"
-              style="width:45px; border-radius:20px"
+              style="width:45px; height:45px; border-radius:20px"
             />
             <div class="receiver">
               {{ value.message }}
@@ -37,13 +40,18 @@
         </b-row>
       </b-container>
     </div>
-    <b-container>
+    <b-container id="input-message">
       <b-row class="pt-3 d-flex align-items-center">
         <b-col cols="9" md="11" lg="11">
-          <b-form-input placeholder="Type your message..."></b-form-input>
+          <b-form-input
+            required
+            v-on:keyup.enter="onSend"
+            v-model="msg"
+            placeholder="Type your message..."
+          ></b-form-input>
         </b-col>
         <b-col cols="1" md="1" lg="1">
-          <b-button>
+          <b-button @click="onSend">
             <b-img :src="require('../assets/icon/Send.png')" />
           </b-button>
         </b-col>
@@ -53,27 +61,55 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Chat',
   data() {
     return {
-      dataUser : {},
-      chat: [
-        {
-          message: 'halo Galuh',
-          class: 'sender'
-        },
-        {
-          message: 'Halo john',
-          class: 'receiver'
-        }
-      ],
-      url: process.env.VUE_APP_URL
+      url: process.env.VUE_APP_URL,
+      msg: null
     }
   },
-  computed: {}
+  methods: {
+    ...mapActions(['sendMessage', 'messageByRoom']),
+    scrollToEnd() {
+      const container = this.$el.querySelector('#message')
+      container.scrollTop = container.scrollHeight
+    },
+    onSend() {
+      const payload = {
+        code_room: this.roomSelected.code_chatroom,
+        sender_id: this.userId.user_id,
+        receiver_id: this.roomSelected.user_id,
+        message: this.msg
+      }
+      this.sendMessage(payload)
+        .then(res => {
+          const setData = {
+            code_chatroom: this.roomSelected.code_chatroom,
+            user_id: this.roomSelected.user_id
+          }
+          this.messageByRoom(setData)
+          this.msg = ''
+          this.scrollToEnd()
+          console.log(res.msg)
+        })
+        .catch(err => {
+          console.log(err.msg)
+        })
+    }
+  },
+  mounted() {
+    this.scrollToEnd()
+  },
+  computed: {
+    ...mapGetters({
+      roomSelected: 'getSelectedRoom',
+      message: 'getMessage',
+      userId: 'getUser'
+    })
+  }
 }
-
 </script>
 
 <style scoped>
@@ -122,8 +158,12 @@ export default {
 
 #message {
   background-color: #eeeeee;
-  min-height: 520px;
-  max-height: 520px;
+  /* min-height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden; */
+  min-height: auto;
+  max-height: 480px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -156,5 +196,27 @@ export default {
   border-radius: 20px 35px 10px 20px;
   background: #ffffff;
   color: #232323;
+}
+
+#input-message input {
+  margin: 20px auto;
+  background-color: #fafafa;
+  border-radius: 15px;
+}
+
+#input-message button {
+  margin: 20px auto;
+  background: #7e98df;
+  border: none;
+  border-radius: 15px;
+}
+
+#input-message button:hover {
+  background: #6987da;
+}
+
+#input-message button:active,
+#input-message button:focus {
+  background: #5277db !important;
 }
 </style>

@@ -30,7 +30,7 @@ export default {
     addRoom(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`${process.env.VUE_APP_URL}/room/`,payload)
+          .post(`${process.env.VUE_APP_URL}/room/`, payload)
           .then(res => {
             resolve(res.data)
           })

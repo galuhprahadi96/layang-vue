@@ -58,7 +58,12 @@
               >
                 <b-icon icon="plus" aria-label="Help"></b-icon>
               </b-button>
-              <b-button v-show="isAdded" size="sm" variant="outline-info" class="mb-2">
+              <b-button
+                v-show="isAdded"
+                size="sm"
+                variant="outline-info"
+                class="mb-2"
+              >
                 <b-icon icon="check" aria-label="Help"></b-icon>
               </b-button>
             </b-col>
@@ -101,7 +106,7 @@ export default {
           this.searchResult = res.data[0]
           // console.log(res)
           const check = this.friend.some(
-            (el) => el.user_id === this.searchResult.user_id
+            el => el.user_id === this.searchResult.user_id
           )
           if (this.userId.user_id === this.searchResult.user_id) {
             this.notAdded = false
@@ -124,13 +129,12 @@ export default {
         user_id: this.userId.user_id,
         friend_id: this.searchResult.user_id
       }
-      this.addFriend(payload)
-        .then((res) => {
-          this.friendList(this.userId.user_id)
-          this.makeToast('success', 'Success', res.msg)
-          this.isAdded = true
-          this.notAdded = false
-        })
+      this.addFriend(payload).then(res => {
+        this.friendList(this.userId.user_id)
+        this.makeToast('success', 'Success', res.msg)
+        this.isAdded = true
+        this.notAdded = false
+      })
     },
     makeToast(variant, title, msg) {
       this.$bvToast.toast(msg, {
@@ -142,7 +146,7 @@ export default {
   },
   created() {
     this.friendList(this.userId.user_id)
-  },
+  }
 }
 </script>
 

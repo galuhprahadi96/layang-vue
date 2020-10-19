@@ -12,15 +12,15 @@
         >
           <b-col cols="3" style="padding-top:10px; margin-right:5px">
             <img
-                :src="url + '/' + value.user_image"
-                style="width:60px; height:60px; border-radius:20px"
-              />
+              :src="url + '/' + value.user_image"
+              style="width:60px; height:60px; border-radius:20px"
+            />
           </b-col>
           <b-col
             cols="7"
             style="text-align:left;margin-left:-20px; padding-right: 0"
           >
-            <span>Name  : {{ value.user_name }}</span
+            <span>Name : {{ value.user_name }}</span
             ><br />
             <span>Phone : {{ value.user_phone }}</span>
             <br />
@@ -72,7 +72,7 @@ export default {
   methods: {
     ...mapMutations(['setDetailFriend']),
     ...mapActions(['friendList', 'addRoom', 'getRoomByUserId']),
-    onDetail(value){
+    onDetail(value) {
       // console.log(value)
       this.setDetailFriend(value)
       this.$bvModal.hide('friend-list')
@@ -106,7 +106,7 @@ export default {
   created() {
     this.friendList(this.userId.user_id)
     this.getRoomByUserId(this.userId.user_id)
-  },
+  }
 }
 </script>
 

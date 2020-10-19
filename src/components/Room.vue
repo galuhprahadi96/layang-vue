@@ -1,51 +1,50 @@
 <template>
   <div class="rooms-c">
-    <div @click="selectedRoom(value)" class="list-rooms" v-for="(value, index) in room" :key="index">
+    <div
+      @click="selectedRoom(value)"
+      class="list-rooms"
+      v-for="(value, index) in room"
+      :key="index"
+    >
       <div class="d-flex align-items-center my-3">
         <img
-          src="https://placekitten.com/300/300"
+          :src="url + '/' + value.user_image"
           class="room-image mr-3"
           alt=""
         />
         <span class="mr-auto room-name">{{ value.user_name }}</span>
-        <!-- <b-badge variant="info" v-show="value.unread > 0">{{
-          value.unread
-        }}</b-badge> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'Room',
   data() {
     return {
-      rooms: [{ user_name: 'John Doe', unread: 2 }]
+      url: process.env.VUE_APP_URL,
+      rooms: [{ user_name: 'John Doe' }]
     }
   },
   computed: {
     ...mapGetters({
-      room: 'roomList',
-      userId: 'getUser'
+      room: 'roomList'
     })
   },
   methods: {
     ...mapMutations(['setSelect']),
-    ...mapActions(['getRoomByUserId','messageByRoom']),
+    ...mapActions(['getRoomByUserId', 'messageByRoom']),
     selectedRoom(value) {
       const setData = {
         code_chatroom: value.code_chatroom,
-        user_id: userId.user_id
+        user_id: value.user_id
       }
       this.setSelect(true)
       this.messageByRoom(setData)
     }
-  },
-  updated() {
-    this.getRoomByUserId(this.userId.user_id)
-  },
+  }
 }
 </script>
 <style>
@@ -58,6 +57,7 @@ export default {
 }
 .list-rooms {
   margin: 5px 20px 5px 20px;
+  cursor: pointer;
 }
 
 .room-image {

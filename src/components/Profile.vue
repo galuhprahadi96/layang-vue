@@ -21,7 +21,12 @@
             <b-button @click="onEdit()" block variant="outline-primary"
               >Edit Profile</b-button
             >
-            <b-button block variant="outline-primary" class="mb-2">
+            <b-button
+              @click="LogoutNow()"
+              block
+              variant="outline-primary"
+              class="mb-2"
+            >
               <b-icon icon="power" aria-hidden="true"></b-icon> Logout
             </b-button>
           </b-tab>
@@ -147,7 +152,8 @@ export default {
       'getUserById',
       'patchLocation',
       'patchImage',
-      'patchProfile'
+      'patchProfile',
+      'logout'
     ]),
     clickMarker(position) {
       this.coordinate = {
@@ -208,6 +214,9 @@ export default {
           this.isAlert = true
           this.isMsg = err.data.msg
         })
+    },
+    LogoutNow() {
+      this.logout()
     },
     makeToast(variant, title, msg) {
       this.$bvToast.toast(msg, {

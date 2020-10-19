@@ -2,10 +2,20 @@
   <b-container fluid class="cont-main">
     <b-row style="margin-right:0px; margin-left:0px;">
       <b-col cols="12" md="3" lg="3" class="list-room"><List /></b-col>
-      <b-col v-show="isSelected" cols="12" md="9" lg="9" style="padding-left:0; padding-right:0;"
+      <b-col
+        v-show="isSelected"
+        cols="12"
+        md="9"
+        lg="9"
+        style="padding-left:0; padding-right:0;"
         ><MessageRoom
       /></b-col>
-      <b-col v-show="!isSelected" cols="12" md="9" lg="9" style="padding-left:0;"
+      <b-col
+        v-show="!isSelected"
+        cols="12"
+        md="9"
+        lg="9"
+        style="padding-left:0;"
         ><NotSelect
       /></b-col>
     </b-row>

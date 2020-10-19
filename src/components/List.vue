@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Room from '../components/Room.vue'
 import FriendList from '../components/FriendList.vue'
 import Profile from '../components/Profile.vue'
@@ -135,7 +135,12 @@ export default {
       userData: 'getUserData'
     })
   },
-  methods: {}
+  methods: {
+    ...mapActions(['logout']),
+    LogoutNow() {
+      this.logout()
+    }
+  }
 }
 </script>
 <style scoped>
