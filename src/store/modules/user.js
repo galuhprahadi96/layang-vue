@@ -7,7 +7,7 @@ export default {
   mutations: {
     setUserData(state, payload) {
       state.userData = payload
-    },
+    }
   },
   actions: {
     getUserById(context, payload) {
@@ -53,8 +53,8 @@ export default {
           })
       })
     },
-    patchProfile(context,payload) {
-      return new Promise((resolve,reject) => {
+    patchProfile(context, payload) {
+      return new Promise((resolve, reject) => {
         axios
           .patch(
             `${process.env.VUE_APP_URL}/users/${payload.user_id}`,
@@ -72,6 +72,6 @@ export default {
   getters: {
     getUserData(state) {
       return state.userData
-    },
+    }
   }
 }

@@ -54,12 +54,13 @@
                 variant="outline-info"
                 class="mb-2"
                 @click="onAdd()"
+                v-show="notAdded"
               >
                 <b-icon icon="plus" aria-label="Help"></b-icon>
               </b-button>
-              <!-- <b-button size="sm" variant="outline-info" class="mb-2">
+              <b-button v-show="isAdded" size="sm" variant="outline-info" class="mb-2">
                 <b-icon icon="check" aria-label="Help"></b-icon>
-              </b-button> -->
+              </b-button>
             </b-col>
           </b-row>
         </b-list-group-item>
@@ -69,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'AddFriend',
   data() {
@@ -83,24 +84,65 @@ export default {
       searchResult: {}
     }
   },
+  computed: {
+    ...mapGetters({
+      friend: 'getFriend',
+      userId: 'getUser'
+    })
+  },
   methods: {
-    ...mapActions(['searchFriend', 'addFriend']),
+    ...mapActions(['searchFriend', 'addFriend', 'friendList']),
     search() {
-      console.log(this.keyword)
       this.dataNotFound = false
       this.dataFound = false
       this.searchFriend(this.keyword)
         .then(res => {
           this.dataFound = true
           this.searchResult = res.data[0]
-          console.log(res)
+          // console.log(res)
+          const check = this.friend.some(
+            (el) => el.user_id === this.searchResult.user_id
+          )
+          if (this.userId.user_id === this.searchResult.user_id) {
+            this.notAdded = false
+            this.isAdded = false
+          } else if (check) {
+            this.isAdded = true
+            this.notAdded = false
+          } else if (!check) {
+            this.notAdded = true
+            this.isAdded = false
+          }
         })
         .catch(err => {
           console.log(err)
           this.dataNotFound = true
         })
+    },
+    onAdd() {
+      const payload = {
+        user_id: this.userId.user_id,
+        friend_id: this.searchResult.user_id
+      }
+      this.addFriend(payload)
+        .then((res) => {
+          this.friendList(this.userId.user_id)
+          this.makeToast('success', 'Success', res.msg)
+          this.isAdded = true
+          this.notAdded = false
+        })
+    },
+    makeToast(variant, title, msg) {
+      this.$bvToast.toast(msg, {
+        title: title,
+        variant: variant,
+        solid: true
+      })
     }
-  }
+  },
+  created() {
+    this.friendList(this.userId.user_id)
+  },
 }
 </script>
 

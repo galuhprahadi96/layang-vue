@@ -5,8 +5,8 @@
         <div class="d-flex align-items-center">
           <img src="https://placekitten.com/300/300" class="rooms-pict ml-3" />
           <div class="ml-4">
-            <p class="ml-3 room-name">John Doe</p>
-            <p style="margin:0">online</p>
+            <p class="ml-3 room-name">Galuh Prahadi Gumelar</p>
+            <p style="margin:0"></p>
           </div>
         </div>
       </b-row>
@@ -40,14 +40,10 @@
     <b-container>
       <b-row class="pt-3 d-flex align-items-center">
         <b-col cols="9" md="11" lg="11">
-          <b-form-input
-            placeholder="Type your message..."
-            v-on:keyup.enter="onSend"
-            v-model="msg"
-          ></b-form-input>
+          <b-form-input placeholder="Type your message..."></b-form-input>
         </b-col>
         <b-col cols="1" md="1" lg="1">
-          <b-button @click="onSend">
+          <b-button>
             <b-img :src="require('../assets/icon/Send.png')" />
           </b-button>
         </b-col>
@@ -61,6 +57,7 @@ export default {
   name: 'Chat',
   data() {
     return {
+      dataUser : {},
       chat: [
         {
           message: 'halo Galuh',
@@ -73,8 +70,10 @@ export default {
       ],
       url: process.env.VUE_APP_URL
     }
-  }
+  },
+  computed: {}
 }
+
 </script>
 
 <style scoped>

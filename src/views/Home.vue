@@ -2,12 +2,12 @@
   <b-container fluid class="cont-main">
     <b-row style="margin-right:0px; margin-left:0px;">
       <b-col cols="12" md="3" lg="3" class="list-room"><List /></b-col>
-      <b-col cols="12" md="9" lg="9" style="padding-left:0; padding-right:0;"
+      <b-col v-show="isSelected" cols="12" md="9" lg="9" style="padding-left:0; padding-right:0;"
         ><MessageRoom
       /></b-col>
-      <!-- <b-col cols="12" md="9" lg="9" style="padding-left:0;"
+      <b-col v-show="!isSelected" cols="12" md="9" lg="9" style="padding-left:0;"
         ><NotSelect
-      /></b-col> -->
+      /></b-col>
     </b-row>
   </b-container>
 </template>
@@ -16,22 +16,22 @@
 import { mapActions, mapGetters } from 'vuex'
 import List from '../components/List'
 import MessageRoom from '../components/Message'
-// import NotSelect from '../components/NotSelect'
+import NotSelect from '../components/NotSelect'
 export default {
   name: 'Home',
   components: {
     List,
-    // NotSelect
+    NotSelect,
     MessageRoom
   },
   computed: {
     ...mapGetters({
-      user: 'getUser'
+      user: 'getUser',
+      isSelected: 'getSelect'
     })
   },
   created() {
     this.getUserById(this.user)
-    this.listFriend(this.user)
     this.$getLocation()
       .then(coordinates => {
         this.coordinate = {
@@ -52,7 +52,7 @@ export default {
       })
   },
   methods: {
-    ...mapActions(['getUserById', 'patchLocation', 'listFriend'])
+    ...mapActions(['getUserById', 'patchLocation'])
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="rooms-c">
-    <div class="list-rooms" v-for="(value, index) in rooms" :key="index">
+    <div @click="selectedRoom(value)" class="list-rooms" v-for="(value, index) in room" :key="index">
       <div class="d-flex align-items-center my-3">
         <img
           src="https://placekitten.com/300/300"
@@ -8,15 +8,16 @@
           alt=""
         />
         <span class="mr-auto room-name">{{ value.user_name }}</span>
-        <b-badge variant="info" v-show="value.unread > 0">{{
+        <!-- <b-badge variant="info" v-show="value.unread > 0">{{
           value.unread
-        }}</b-badge>
+        }}</b-badge> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Room',
   data() {
@@ -24,7 +25,27 @@ export default {
       rooms: [{ user_name: 'John Doe', unread: 2 }]
     }
   },
-  methods: {}
+  computed: {
+    ...mapGetters({
+      room: 'roomList',
+      userId: 'getUser'
+    })
+  },
+  methods: {
+    ...mapMutations(['setSelect']),
+    ...mapActions(['getRoomByUserId','messageByRoom']),
+    selectedRoom(value) {
+      const setData = {
+        code_chatroom: value.code_chatroom,
+        user_id: userId.user_id
+      }
+      this.setSelect(true)
+      this.messageByRoom(setData)
+    }
+  },
+  updated() {
+    this.getRoomByUserId(this.userId.user_id)
+  },
 }
 </script>
 <style>

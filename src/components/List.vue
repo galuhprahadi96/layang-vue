@@ -72,6 +72,7 @@
             </li>
           </ul>
         </b-popover>
+        <DetailFriend />
         <AddFriend />
         <FriendList />
         <Profile />
@@ -113,6 +114,7 @@ import Room from '../components/Room.vue'
 import FriendList from '../components/FriendList.vue'
 import Profile from '../components/Profile.vue'
 import AddFriend from '../components/AddFriend.vue'
+import DetailFriend from '../components/DetailFriend.vue'
 export default {
   name: 'List',
   data() {
@@ -124,7 +126,8 @@ export default {
     Room,
     Profile,
     FriendList,
-    AddFriend
+    AddFriend,
+    DetailFriend
   },
   computed: {
     ...mapGetters({
