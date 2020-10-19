@@ -9,7 +9,7 @@
           <b-form-input
             type="search"
             v-model="keyword"
-            placeholder="search by phone or email"
+            placeholder="search friend by phone or email"
             v-on:keyup.enter="search"
           ></b-form-input>
         </b-col>
@@ -24,7 +24,6 @@
 <script>
 export default {
   name: 'FriendList',
-
   data() {
     return {
       url: process.env.VUE_APP_URL,

@@ -31,6 +31,7 @@ export default {
   },
   created() {
     this.getUserById(this.user)
+    this.listFriend(this.user)
     this.$getLocation()
       .then(coordinates => {
         this.coordinate = {
@@ -51,7 +52,7 @@ export default {
       })
   },
   methods: {
-    ...mapActions(['getUserById','patchLocation'])
+    ...mapActions(['getUserById', 'patchLocation', 'listFriend'])
   }
 }
 </script>

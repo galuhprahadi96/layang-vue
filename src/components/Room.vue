@@ -21,7 +21,7 @@ export default {
   name: 'Room',
   data() {
     return {
-      rooms: []
+      rooms: [{ user_name: 'John Doe', unread: 2 }]
     }
   },
   methods: {}

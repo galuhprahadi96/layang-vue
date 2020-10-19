@@ -52,6 +52,21 @@ export default {
             reject(err.response)
           })
       })
+    },
+    patchProfile(context,payload) {
+      return new Promise((resolve,reject) => {
+        axios
+          .patch(
+            `${process.env.VUE_APP_URL}/users/${payload.user_id}`,
+            payload.form
+          )
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err.response)
+          })
+      })
     }
   },
   getters: {

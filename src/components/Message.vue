@@ -63,27 +63,11 @@ export default {
     return {
       chat: [
         {
-          message: 'halo',
+          message: 'halo Galuh',
           class: 'sender'
         },
         {
-          message: 'halo goblok',
-          class: 'sender'
-        },
-        {
-          message: 'apa',
-          class: 'receiver'
-        },
-        {
-          message: 'halo',
-          class: 'sender'
-        },
-        {
-          message: 'halo goblok',
-          class: 'sender'
-        },
-        {
-          message: 'apa',
+          message: 'Halo john',
           class: 'receiver'
         }
       ],
@@ -163,14 +147,14 @@ export default {
 
 .sender {
   float: left;
-  border-radius: 35px 35px 35px 10px;
+  border-radius: 35px 20px 20px 10px;
   background: #45ac31;
   color: #ffffff;
 }
 
 .receiver {
   float: right;
-  border-radius: 35px 35px 10px 35px;
+  border-radius: 20px 35px 10px 20px;
   background: #ffffff;
   color: #232323;
 }

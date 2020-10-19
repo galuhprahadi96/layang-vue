@@ -47,6 +47,7 @@
         <template v-slot:modal-title>
           Edit Profile
         </template>
+        <b-alert variant="danger" :show="isAlert">{{ isMsg }}</b-alert>
         <div class="profile-detail">
           <b-avatar
             class="profile-image"
@@ -70,7 +71,7 @@
           </div>
         </div>
         <hr />
-        <b-form @submit.prevent="onUpdate()">
+        <b-form @submit.prevent="updateProfile()">
           <b-form-group
             label-cols-sm="3"
             label="Email"
@@ -102,10 +103,16 @@
               v-model="form.user_phone"
             ></b-form-input>
           </b-form-group>
-
-          <b-button type="submit" class="login-btn" style="margin-top: 35px">
-            Save
-          </b-button>
+          <div>
+            <b-button
+              size="md"
+              type="submit"
+              variant="outline-primary"
+              style="margin-top: 35px"
+            >
+              Update
+            </b-button>
+          </div>
         </b-form>
       </b-modal>
     </div>
@@ -124,7 +131,9 @@ export default {
         lng: 0
       },
       form: {},
-      formImage: {}
+      formImage: {},
+      isMsg: '',
+      isAlert: false
     }
   },
   computed: {
@@ -134,7 +143,12 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['getUserById', 'patchLocation', 'patchImage']),
+    ...mapActions([
+      'getUserById',
+      'patchLocation',
+      'patchImage',
+      'patchProfile'
+    ]),
     clickMarker(position) {
       this.coordinate = {
         lat: position.latLng.lat(),
@@ -155,24 +169,44 @@ export default {
         user_name: this.userData.user_name,
         user_phone: this.userData.user_phone
       }
+      this.isAlert = false
       this.$bvModal.show('edit-profile')
+    },
+    updateProfile() {
+      this.isAlert = false
+      const setData = {
+        user_id: this.userId.user_id,
+        form: this.form
+      }
+      this.patchProfile(setData)
+        .then(res => {
+          this.isAlert = false
+          this.getUserById(this.userId)
+          this.makeToast('success', 'Success', res.msg)
+        })
+        .catch(err => {
+          this.isAlert = true
+          this.isMsg = err.data.msg
+        })
     },
     upFile(event) {
       this.formImage.user_image = event.target.files[0]
       const data = new FormData()
       data.append('image', this.formImage.user_image)
-      const payload = {
+      const setData = {
         user_id: this.userId.user_id,
         form: data
       }
-      this.patchImage(payload)
+      this.patchImage(setData)
         .then(res => {
+          this.isAlert = false
           this.getUserById(this.userId)
           this.makeToast('success', 'Success', res.msg)
           this.formImage = {}
         })
         .catch(err => {
-          this.makeToast('danger', 'Sorry', err.data.msg)
+          this.isAlert = true
+          this.isMsg = err.data.msg
         })
     },
     makeToast(variant, title, msg) {
@@ -187,6 +221,9 @@ export default {
 </script>
 
 <style scoped>
+.modal-content {
+  border-radius: 50% !important;
+}
 .profile-detail {
   display: flex;
   align-self: center;
