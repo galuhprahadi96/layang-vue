@@ -1,6 +1,6 @@
 <h1 align='center'>Vue JS - Layang Web Chat</h1>
 <p align="center">
-    <a href="https://gi-pos.netlify.app/login">View Demo</a>
+    <a href="https://layang-web-chat.netlify.app">View Demo</a>
     ·
     <a href="https://github.com/galuhprahadi96/layang-vue/issues">Report Bug</a>
     ·
