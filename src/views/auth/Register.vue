@@ -68,15 +68,6 @@
               <span>Register</span>
             </b-button>
           </div>
-          <div class="mb-3" style="text-align: center; font-size:14px">
-            <p>Register with</p>
-          </div>
-          <div class="cform-button">
-            <b-button type="submit" class="my-google">
-              <b-spinner small v-show="isLoading"></b-spinner>
-              <span>Google</span>
-            </b-button>
-          </div>
         </b-form>
       </div>
     </b-container>

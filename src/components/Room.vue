@@ -1,5 +1,12 @@
 <template>
   <div class="rooms-c">
+    <div class="text-center container-room" v-show="room.length === 0">
+      <img
+        style="opacity: 20%; width:70%;"
+        :src="require('../assets/ilustration/front.svg')"
+      />
+      <p>No chat History</p>
+    </div>
     <div
       @click="selectedRoom(value)"
       class="list-rooms"
@@ -51,6 +58,16 @@ export default {
 }
 </script>
 <style>
+.container-room {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  margin: auto;
+  font-size: 1.2rem;
+  line-height: 20px;
+  color: #848484;
+}
+
 .rooms-c {
   background-color: #ffffff;
   min-height: auto;

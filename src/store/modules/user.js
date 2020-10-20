@@ -67,6 +67,20 @@ export default {
             reject(err.response)
           })
       })
+    },
+    resetImage(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(
+            `${process.env.VUE_APP_URL}/users/resetProfile/${payload.user_id}`
+          )
+          .then(res => {
+            resolve(res.data)
+          })
+          .catch(err => {
+            reject(err.response)
+          })
+      })
     }
   },
   getters: {

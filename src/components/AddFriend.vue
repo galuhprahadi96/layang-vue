@@ -17,18 +17,12 @@
         </b-col>
       </b-row>
       <div class="text-center">
-        <b-col cols="12" v-if="keyword === ''">
-          <p style="text-align: center; font-size: 20px" class="mt-2">
-            Search Friend
-          </p>
-        </b-col>
-        <b-col cols="12" v-if="dataNotFound">
-          <p
-            style="color: red; text-align: center; font-size: 20px"
-            class="mt-2"
-          >
-            Oops... Data not Found.
-          </p>
+        <b-col class="notFound" cols="12" v-if="dataNotFound">
+          <img
+            class="container-img"
+            :src="require('../assets/ilustration/chat.svg')"
+          />
+          <p v-show="dataNotFound">Opss...! Data Not Found</p>
         </b-col>
         <b-list-group-item v-if="dataFound">
           <b-row>
@@ -151,6 +145,19 @@ export default {
 </script>
 
 <style scoped>
+.notFound {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  margin: auto;
+  font-size: 1.2rem;
+  line-height: 28px;
+  color: #848484;
+}
+.container-img {
+  opacity: 20%;
+  color: #848484;
+}
 .list-options {
   margin: 0 auto 10px;
 }

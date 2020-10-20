@@ -1,7 +1,9 @@
 <template>
   <b-container style="padding: 0;">
     <b-row class="list-header">
-      <b-col cols="10"><p>Layang</p></b-col>
+      <b-col cols="10">
+        <p><b-icon icon="chat-quote"></b-icon> Layang</p>
+      </b-col>
       <b-col cols="2">
         <img
           src="@/assets/icon/Menu.png"
@@ -119,6 +121,7 @@ export default {
   name: 'List',
   data() {
     return {
+      isLogout: false,
       url: process.env.VUE_APP_URL
     }
   },
@@ -138,7 +141,29 @@ export default {
   methods: {
     ...mapActions(['logout']),
     LogoutNow() {
-      this.logout()
+      this.$bvModal
+        .msgBoxConfirm('Are you sure want to logout?', {
+          title: `Hello ${this.userData.user_name}`,
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'primary',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          if (value) {
+            this.isLogout = value
+            if (this.isLogout) {
+              this.logout()
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

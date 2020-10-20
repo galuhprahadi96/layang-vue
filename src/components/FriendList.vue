@@ -4,7 +4,15 @@
       <template v-slot:modal-title>
         Friend List
       </template>
+
       <b-list-group-item>
+        <div class="text-center container-friend" v-show="friend.length === 0">
+          <img
+            style="opacity: 20%; width:70%;"
+            :src="require('../assets/ilustration/front.svg')"
+          />
+          <p>Please add Friend First</p>
+        </div>
         <b-row
           v-for="(value, index) in friend"
           :key="index"
@@ -110,4 +118,14 @@ export default {
 }
 </script>
 
-<style scoped src="../assets/css/style.css"></style>
+<style scoped>
+.container-friend {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: normal;
+  margin: auto;
+  font-size: 1.2rem;
+  line-height: 20px;
+  color: #848484;
+}
+</style>

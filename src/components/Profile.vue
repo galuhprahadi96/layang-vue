@@ -70,6 +70,7 @@
             >
             <span
               class="button-profile"
+              @click="resetProfile()"
               v-show="userData.user_image !== 'profile.png'"
               >Reset</span
             >
@@ -138,7 +139,9 @@ export default {
       form: {},
       formImage: {},
       isMsg: '',
-      isAlert: false
+      isAlert: false,
+      isLogout: false,
+      isChange: false
     }
   },
   computed: {
@@ -153,6 +156,7 @@ export default {
       'patchLocation',
       'patchImage',
       'patchProfile',
+      'resetImage',
       'logout'
     ]),
     clickMarker(position) {
@@ -215,8 +219,68 @@ export default {
           this.isMsg = err.data.msg
         })
     },
+    resetProfile() {
+      this.$bvModal
+        .msgBoxConfirm('Are you sure want reset your Profile?', {
+          title: `Hello ${this.userData.user_name}`,
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'primary',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          this.isAlert = false
+          if (value) {
+            this.isChange = value
+            if (this.isChange) {
+              const setData = {
+                user_id: this.userId.user_id
+              }
+              this.resetImage(setData)
+                .then(res => {
+                  this.isAlert = false
+                  this.getUserById(this.userId)
+                  this.makeToast('success', 'Success', res.msg)
+                })
+                .catch(err => {
+                  this.isAlert = true
+                  this.isMsg = err.data.msg
+                })
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     LogoutNow() {
-      this.logout()
+      this.$bvModal
+        .msgBoxConfirm('Are you sure want to logout?', {
+          title: `Hello ${this.userData.user_name}`,
+          size: 'sm',
+          buttonSize: 'sm',
+          okVariant: 'primary',
+          okTitle: 'YES',
+          cancelTitle: 'NO',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          if (value) {
+            this.isLogout = value
+            if (this.isLogout) {
+              this.logout()
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     makeToast(variant, title, msg) {
       this.$bvToast.toast(msg, {
