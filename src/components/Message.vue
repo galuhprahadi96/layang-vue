@@ -9,7 +9,12 @@
           />
           <div class="ml-4">
             <p class="ml-3 room-name">{{ roomSelected.room_name }}</p>
-            <p style="margin:0"></p>
+            <p style="margin-left:14px">
+              <br />
+              <small v-if="typing"
+                ><em>{{ typing.room_name }} is typing...</em></small
+              >
+            </p>
           </div>
         </div>
       </b-row>
@@ -61,14 +66,41 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Chat',
   data() {
     return {
+      socket: io(process.env.VUE_APP_URL),
       url: process.env.VUE_APP_URL,
-      msg: null
+      msg: null,
+      typing: false,
+      chat: []
     }
+  },
+  watch: {
+    msg(value) {
+      value
+        ? this.socket.emit('typing', {
+            room_name: this.roomSelected.room_name,
+            code_chatroom: this.roomSelected.code_chatroom
+          })
+        : this.socket.emit('typing', false)
+    }
+  },
+  mounted() {
+    this.socket.on('typingMessage', data => {
+      if (data.code_chatroom !== this.roomSelected.code_chatroom) {
+        this.typing = false
+      } else {
+        this.typing = data
+      }
+    })
+    this.socket.on('chatMessage', data => {
+      this.scrollToEnd()
+      this.message.push(data)
+    })
   },
   methods: {
     ...mapActions(['sendMessage', 'messageByRoom']),
@@ -83,13 +115,16 @@ export default {
         receiver_id: this.roomSelected.user_id,
         message: this.msg
       }
+      const socketData = {
+        code_chatroom: this.roomSelected.code_chatroom,
+        sender: this.userId.user_id,
+        getter: this.roomSelected.user_id,
+        message: this.msg,
+        sender_img: this.userData.user_image
+      }
+      this.socket.emit('roomMessage', socketData)
       this.sendMessage(payload)
         .then(res => {
-          const setData = {
-            code_chatroom: this.roomSelected.code_chatroom,
-            user_id: this.roomSelected.user_id
-          }
-          this.messageByRoom(setData)
           this.msg = ''
           this.scrollToEnd()
           console.log(res.msg)
@@ -99,14 +134,12 @@ export default {
         })
     }
   },
-  mounted() {
-    this.scrollToEnd()
-  },
   computed: {
     ...mapGetters({
       roomSelected: 'getSelectedRoom',
       message: 'getMessage',
-      userId: 'getUser'
+      userId: 'getUser',
+      userData: 'getUserData'
     })
   }
 }
@@ -162,7 +195,7 @@ export default {
   max-height: 70vh;
   overflow-y: auto;
   overflow-x: hidden; */
-  min-height: auto;
+  min-height: 480px;
   max-height: 480px;
   overflow-y: auto;
   overflow-x: hidden;

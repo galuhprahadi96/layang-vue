@@ -19,11 +19,13 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'Room',
   data() {
     return {
+      socket: io(process.env.VUE_APP_URL),
       url: process.env.VUE_APP_URL,
       rooms: [{ user_name: 'John Doe' }]
     }
@@ -43,6 +45,7 @@ export default {
       }
       this.setSelect(true)
       this.messageByRoom(setData)
+      this.socket.emit('joinRoom', value.code_chatroom)
     }
   }
 }
