@@ -60,11 +60,13 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import { mapActions, mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'FriendList',
   data() {
     return {
+      socket: io(process.env.VUE_APP_URL),
       url: process.env.VUE_APP_URL,
       keyword: '',
       isDelete: false
@@ -74,7 +76,8 @@ export default {
     ...mapGetters({
       friend: 'getFriend',
       userId: 'getUser',
-      room: 'roomList'
+      room: 'roomList',
+      userData: 'getUserData'
     })
   },
   methods: {
@@ -97,6 +100,13 @@ export default {
           friend_id: data.user_id
         }
         this.addRoom(payload).then(res => {
+          const dataRoom = {
+            user_id: this.userId.user_id,
+            user_name: this.userData.user_name,
+            user_image: this.userData.user_image,
+            code_chatroom: res.data
+          }
+          this.socket.emit('createRoom', dataRoom)
           this.makeToast('success', 'Success', res.msg)
           this.getRoomByUserId(this.userId.user_id)
           this.$bvModal.hide('friend-list')

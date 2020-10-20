@@ -39,7 +39,13 @@ export default {
   },
   computed: {
     ...mapGetters({
+      userId: 'getUser',
       room: 'roomList'
+    })
+  },
+  mounted() {
+    this.socket.on('room', data => {
+      this.room.push(data)
     })
   },
   methods: {

@@ -83,7 +83,7 @@ export default {
     msg(value) {
       value
         ? this.socket.emit('typing', {
-            room_name: this.roomSelected.room_name,
+            room_name: this.userData.user_name,
             code_chatroom: this.roomSelected.code_chatroom
           })
         : this.socket.emit('typing', false)
@@ -115,6 +115,7 @@ export default {
         receiver_id: this.roomSelected.user_id,
         message: this.msg
       }
+
       const socketData = {
         code_chatroom: this.roomSelected.code_chatroom,
         sender: this.userId.user_id,
