@@ -7,7 +7,7 @@
     <a href="https://github.com/galuhprahadi96/layang-vue/issues">Request Feature</a>
   </p>
 
-![smartmockups_kg7zftnm](https://user-images.githubusercontent.com/40691793/95864838-24df5580-0d90-11eb-979f-72e32763eb94.jpg)
+![smartmockups_kgixx3tv](https://user-images.githubusercontent.com/40691793/96718240-ed952800-13d1-11eb-989e-ed0b7ee738b2.jpg)
 
 Layang Web Chat is a application Real-time chat, made with Vue JS for Frontend and Express JS for Backend, Layang Web Chat provides several features that you can use and manage easily. [More about Vue](https://vuejs.org/)
 
