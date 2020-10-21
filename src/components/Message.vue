@@ -26,7 +26,7 @@
             <img
               :src="url + '/' + value.sender_img"
               class="float-left"
-              style="width:45px; height:45px; border-radius:20px"
+              style="width:45px; height:45px; border-radius:10px"
             />
             <div class="sender">
               {{ value.message }}
@@ -36,7 +36,7 @@
             <img
               :src="url + '/' + value.sender_img"
               class="float-right"
-              style="width:45px; height:45px; border-radius:20px"
+              style="width:45px; height:45px; border-radius:10px"
             />
             <div class="receiver">
               {{ value.message }}
@@ -191,11 +191,7 @@ export default {
 }
 
 #message {
-  background-color: #eeeeee;
-  /* min-height: 70vh;
-  max-height: 70vh;
-  overflow-y: auto;
-  overflow-x: hidden; */
+  background-color: #e2dbdb;
   min-height: 480px;
   max-height: 480px;
   overflow-y: auto;
@@ -215,26 +211,26 @@ export default {
   letter-spacing: -0.165px;
   padding: 10px 20px;
   margin: 5px 20px 5px;
-  max-width: 290px;
+  max-width: 300px;
 }
 
 .sender {
   float: left;
-  border-radius: 35px 20px 20px 10px;
-  background: #45ac31;
-  color: #ffffff;
-}
-
-.receiver {
-  float: right;
-  border-radius: 20px 35px 10px 20px;
+  border-radius: 0 40px 40px 40px;
   background: #ffffff;
   color: #232323;
 }
 
+.receiver {
+  float: right;
+  border-radius: 40px 0 40px 40px;
+  background: #b872e0;
+  color: #ffffff;
+}
+
 #input-message input {
-  margin: 20px auto;
-  background-color: #fafafa;
+  margin: 10px auto;
+  background-color: #e2dbdb;
   border-radius: 15px;
 }
 

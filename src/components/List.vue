@@ -2,7 +2,7 @@
   <b-container style="padding: 0;">
     <b-row class="list-header">
       <b-col cols="10">
-        <p><b-icon icon="chat-quote"></b-icon> Layang</p>
+        <p class="ml-5"><b-icon icon="chat-quote"></b-icon> Layang</p>
       </b-col>
       <b-col cols="2">
         <img
@@ -97,13 +97,16 @@
           ></b-form-input>
         </b-input-group>
       </b-col>
-      <b-col cols="2">
-        <img
+      <b-col
+        cols="2"
+        style="width:35px; height:35px; padding-right:10px; padding-left:0"
+      >
+        <b-icon
           @click="$bvModal.show('friend-list')"
-          style="cursor:pointer"
-          src="@/assets/icon/Plus.png"
-          alt="plus"
-        />
+          style="width:30px; height:30px; cursor:pointer;"
+          icon="chat-dots"
+          variant="primary"
+        ></b-icon>
       </b-col>
     </b-row>
     <Room />
@@ -238,7 +241,7 @@ ul.burger-list {
   background-position: left;
   background-position-x: 10px;
   background-color: #fafafa;
-  padding: 0 10px 0 40px;
+  padding: 0 10px 0 10px;
   border-radius: 15px;
 }
 

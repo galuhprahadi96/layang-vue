@@ -35,23 +35,25 @@
             <span>Email : {{ value.user_email }}</span></b-col
           >
           <b-col cols="12" style="padding-top:20px">
-            <b-button
-              @click="onDetail(value)"
-              v-b-toggle.friend-info
-              size="sm"
-              variant="outline-info"
-              class="mx-2"
-            >
-              <b-icon icon="info" aria-label="Help"></b-icon> Detail
-            </b-button>
-            <b-button
-              @click="onChat(value)"
-              size="sm"
-              variant="outline-info"
-              class="mx-2"
-            >
-              <b-icon icon="chat" aria-label="Help"></b-icon> Send Message
-            </b-button>
+            <div style="float:right">
+              <b-button
+                @click="onDetail(value)"
+                v-b-toggle.friend-info
+                size="sm"
+                variant="outline-info"
+                class="mx-2"
+              >
+                <b-icon icon="info" aria-label="Help"></b-icon> Detail
+              </b-button>
+              <b-button
+                @click="onChat(value)"
+                size="sm"
+                variant="outline-info"
+                class="mx-2"
+              >
+                <b-icon icon="chat" aria-label="Help"></b-icon> Send Message
+              </b-button>
+            </div>
           </b-col>
         </b-row>
       </b-list-group-item>
