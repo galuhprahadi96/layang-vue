@@ -103,7 +103,8 @@ export default {
         }
         this.addRoom(payload).then(res => {
           const dataRoom = {
-            user_id: this.userId.user_id,
+            sender: this.userId.user_id,
+            receiver: data.user_id,
             user_name: this.userData.user_name,
             user_image: this.userData.user_image,
             code_chatroom: res.data

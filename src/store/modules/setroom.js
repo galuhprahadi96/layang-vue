@@ -42,7 +42,6 @@ export default {
   },
   getters: {
     roomList(state) {
-      // console.log(state.rooms)
       return state.rooms
     },
     getSelect(state) {

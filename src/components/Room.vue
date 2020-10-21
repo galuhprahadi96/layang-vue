@@ -19,7 +19,13 @@
           class="room-image mr-3"
           alt=""
         />
-        <span class="mr-auto room-name">{{ value.user_name }}</span>
+        <div class="ml-1">
+          <p class="room-name" style="float:left; margin-bottom:-15px">
+            {{ value.user_name }}
+          </p>
+          <br />
+          <small>{{ value.recent_message }}</small>
+        </div>
       </div>
     </div>
   </div>
@@ -45,7 +51,9 @@ export default {
   },
   mounted() {
     this.socket.on('room', data => {
-      this.room.push(data)
+      if (data.receiver === this.userId.user_id) {
+        this.room.push(data)
+      }
     })
   },
   methods: {
@@ -54,7 +62,7 @@ export default {
     selectedRoom(value) {
       const setData = {
         code_chatroom: value.code_chatroom,
-        user_id: value.user_id
+        user_id: value.receiver
       }
       this.setSelect(true)
       this.messageByRoom(setData)

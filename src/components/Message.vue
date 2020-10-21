@@ -22,7 +22,7 @@
     <div id="message">
       <b-container class="message-chat">
         <b-row v-for="(value, index) in message" :key="index">
-          <b-col v-if="value.sender === roomSelected.user_id">
+          <b-col v-if="value.sender !== userId.user_id">
             <img
               :src="url + '/' + value.sender_img"
               class="float-left"
@@ -99,11 +99,14 @@ export default {
     })
     this.socket.on('chatMessage', data => {
       this.scrollToEnd()
-      this.message.push(data)
+      if (data.code_chatroom === this.roomSelected.code_chatroom) {
+        this.getRoomByUserId(this.userId.user_id)
+        this.message.push(data)
+      }
     })
   },
   methods: {
-    ...mapActions(['sendMessage', 'messageByRoom']),
+    ...mapActions(['sendMessage', 'messageByRoom', 'getRoomByUserId']),
     scrollToEnd() {
       const container = this.$el.querySelector('#message')
       container.scrollTop = container.scrollHeight
@@ -112,14 +115,14 @@ export default {
       const payload = {
         code_room: this.roomSelected.code_chatroom,
         sender_id: this.userId.user_id,
-        receiver_id: this.roomSelected.user_id,
+        receiver_id: this.roomSelected.receiver,
         message: this.msg
       }
 
       const socketData = {
         code_chatroom: this.roomSelected.code_chatroom,
         sender: this.userId.user_id,
-        getter: this.roomSelected.user_id,
+        getter: this.roomSelected.receiver,
         message: this.msg,
         sender_img: this.userData.user_image
       }
@@ -127,6 +130,7 @@ export default {
       this.sendMessage(payload)
         .then(res => {
           this.msg = ''
+          this.getRoomByUserId(this.userId.user_id)
           this.scrollToEnd()
           console.log(res.msg)
         })
