@@ -102,8 +102,6 @@ export default {
       if (data.code_chatroom === this.roomSelected.code_chatroom) {
         this.getRoomByUserId(this.userId.user_id)
         this.message.push(data)
-      }else{
-        data = ""
       }
     })
   },
