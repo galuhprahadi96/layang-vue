@@ -102,6 +102,8 @@ export default {
       if (data.code_chatroom === this.roomSelected.code_chatroom) {
         this.getRoomByUserId(this.userId.user_id)
         this.message.push(data)
+      }else{
+        data = ""
       }
     })
   },
@@ -112,12 +114,12 @@ export default {
       container.scrollTop = container.scrollHeight
     },
     onSend() {
-      const payload = {
-        code_room: this.roomSelected.code_chatroom,
-        sender_id: this.userId.user_id,
-        receiver_id: this.roomSelected.receiver,
-        message: this.msg
-      }
+      // const payload = {
+      //   code_room: this.roomSelected.code_chatroom,
+      //   sender_id: this.userId.user_id,
+      //   receiver_id: this.roomSelected.receiver,
+      //   message: this.msg
+      // }
 
       const socketData = {
         code_chatroom: this.roomSelected.code_chatroom,
@@ -127,16 +129,17 @@ export default {
         sender_img: this.userData.user_image
       }
       this.socket.emit('roomMessage', socketData)
-      this.sendMessage(payload)
-        .then(res => {
-          this.msg = ''
-          this.getRoomByUserId(this.userId.user_id)
-          this.scrollToEnd()
-          console.log(res.msg)
-        })
-        .catch(err => {
-          console.log(err.msg)
-        })
+      this.msg = ''
+      // this.sendMessage(payload)
+      //   .then(res => {
+      //     this.msg = ''
+      //     this.getRoomByUserId(this.userId.user_id)
+      //     this.scrollToEnd()
+      //     console.log(res.msg)
+      //   })
+      //   .catch(err => {
+      //     console.log(err.msg)
+      //   })
     }
   },
   computed: {
