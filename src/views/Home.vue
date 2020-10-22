@@ -23,12 +23,18 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import { mapActions, mapGetters } from 'vuex'
 import List from '../components/List'
 import MessageRoom from '../components/Message'
 import NotSelect from '../components/NotSelect'
 export default {
   name: 'Home',
+  data() {
+    return {
+      socket: io(process.env.VUE_APP_URL)
+    }
+  },
   components: {
     List,
     NotSelect,
@@ -37,7 +43,8 @@ export default {
   computed: {
     ...mapGetters({
       user: 'getUser',
-      isSelected: 'getSelect'
+      isSelected: 'getSelect',
+      room: 'roomList'
     })
   },
   created() {
@@ -61,8 +68,34 @@ export default {
         alert(error)
       })
   },
+  mounted() {
+    this.socket.on('notifMessage', (data) => {
+      this.getRoomByUserId(this.userId.user_id)
+      if (this.user.user_id === data.getter) { 
+        this.makeNotif(data.sender_name, data.message, 'primary')
+      }
+    })
+  },
   methods: {
-    ...mapActions(['getUserById', 'patchLocation'])
+    ...mapActions(['getUserById', 'patchLocation', 'getRoomByUserId']),
+    makeNotif(title, msg, variant = null, append = false) {
+      const h = this.$createElement
+      const vNodesTitle = h (
+        'div',
+        { class: ['d-flex', 'flex-grow-1', 'align-items-baseline'] },
+        [
+          h('b-badge', { variant: 'danger' }, 'New'),
+          h('strong', { class: 'ml-2' }, `${title}`)
+        ]
+      )
+      this.$bvToast.toast(`${msg}`, {
+        title: [vNodesTitle],
+        autoHideDelay: 5000,
+        appendToast: append,
+        variant: variant,
+        solid: true
+      })
+    }
   }
 }
 </script>

@@ -81,12 +81,14 @@ export default {
   },
   watch: {
     msg(value) {
-      value
-        ? this.socket.emit('typing', {
+      if (value) {
+        this.socket.emit('typing', {
             room_name: this.userData.user_name,
             code_chatroom: this.roomSelected.code_chatroom
           })
-        : this.socket.emit('typing', false)
+      } else {
+        this.socket.emit('typing', false)
+      }
     }
   },
   mounted() {
@@ -112,32 +114,34 @@ export default {
       container.scrollTop = container.scrollHeight
     },
     onSend() {
-      // const payload = {
-      //   code_room: this.roomSelected.code_chatroom,
-      //   sender_id: this.userId.user_id,
-      //   receiver_id: this.roomSelected.receiver,
-      //   message: this.msg
-      // }
+      const payload = {
+        code_room: this.roomSelected.code_chatroom,
+        sender_id: this.userId.user_id,
+        receiver_id: this.roomSelected.receiver,
+        message: this.msg
+      }
 
       const socketData = {
         code_chatroom: this.roomSelected.code_chatroom,
         sender: this.userId.user_id,
         getter: this.roomSelected.receiver,
         message: this.msg,
-        sender_img: this.userData.user_image
+        sender_img: this.userData.user_image,
+        sender_name: this.userData.user_name
       }
       this.socket.emit('roomMessage', socketData)
+      this.socket.emit('notif', socketData)
       this.msg = ''
-      // this.sendMessage(payload)
-      //   .then(res => {
-      //     this.msg = ''
-      //     this.getRoomByUserId(this.userId.user_id)
-      //     this.scrollToEnd()
-      //     console.log(res.msg)
-      //   })
-      //   .catch(err => {
-      //     console.log(err.msg)
-      //   })
+      this.sendMessage(payload)
+        .then(res => {
+          this.msg = ''
+          this.getRoomByUserId(this.userId.user_id)
+          this.scrollToEnd()
+          console.log(res.msg)
+        })
+        .catch(err => {
+          console.log(err.msg)
+        })
     }
   },
   computed: {

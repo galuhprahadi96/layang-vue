@@ -91,17 +91,12 @@ export default {
       this.$bvModal.hide('friend-list')
     },
     onChat(data) {
-      const check = this.room.some(el => {
-        return el.user_id === data.user_id
-      })
-      if (check) {
-        this.makeToast('info', 'Info', 'Room is already exists')
-      } else {
-        const payload = {
-          user_id: this.userId.user_id,
-          friend_id: data.user_id
-        }
-        this.addRoom(payload).then(res => {
+      const payload = {
+        user_id: this.userId.user_id,
+        friend_id: data.user_id
+      }
+        this.addRoom(payload)
+        .then(res => {
           const dataRoom = {
             sender: this.userId.user_id,
             receiver: data.user_id,
@@ -114,7 +109,11 @@ export default {
           this.getRoomByUserId(this.userId.user_id)
           this.$bvModal.hide('friend-list')
         })
-      }
+        .catch(err => {
+          this.makeToast('danger', 'Already', err.data.msg)
+          this.getRoomByUserId(this.userId.user_id)
+          this.$bvModal.hide('friend-list')
+        })
     },
     makeToast(variant, title, msg) {
       this.$bvToast.toast(msg, {

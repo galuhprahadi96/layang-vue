@@ -52,7 +52,7 @@ export default {
   mounted() {
     this.socket.on('room', data => {
       if (data.receiver === this.userId.user_id) {
-        this.room.push(data)
+        this.getRoomByUserId(this.userId.user_id)
       }
     })
   },
