@@ -87,7 +87,6 @@ export default {
           }, 2000)
         })
         .catch(err => {
-          // console.log(err)
           this.isLoading = false
           this.isAlert = true
           this.isMsg = err.data.msg

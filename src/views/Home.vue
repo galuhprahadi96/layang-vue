@@ -70,8 +70,8 @@ export default {
   },
   mounted() {
     this.socket.on('notifMessage', (data) => {
-      this.getRoomByUserId(this.userId.user_id)
       if (this.user.user_id === data.getter) { 
+        this.getRoomByUserId(this.user.user_id)
         this.makeNotif(data.sender_name, data.message, 'primary')
       }
     })

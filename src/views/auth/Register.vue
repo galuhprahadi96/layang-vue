@@ -131,10 +131,6 @@ export default {
   position: absolute;
   color: blueviolet;
 }
-/* .back:hover {
-  color: rgb(255, 255, 255);
-  background-color: blueviolet;
-} */
 .my-primary {
   background-color: rgb(180, 101, 255);
   border: 1px solid rgb(180, 101, 255);
